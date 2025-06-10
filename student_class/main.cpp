@@ -6,36 +6,64 @@ using namespace std;
 class Student {
     public:
     string name;
-    double gpa;
-    int id;
 
-    void print(){
+    Student(){
+        name = "";
+        gpa = -1.0;
+        id = -1;
+    }
+
+    Student(string n, double g, int i){
+        name = n;
+        setGpa(g);
+        setId(i);
+    }
+    
+    void setId(int i){
+        if(i < 800000000){
+            cout << "Invalid ID assignment." << endl;
+            id = -1;
+            return;
+        }
+
+        id = i;
+    }
+
+    int getId() const {
+        return id;
+    }
+
+    void setGpa(double g){
+        if(g > 4.0 || g < 0.0){
+            cout << "Invalid GPA assignment." << endl;
+            gpa = -1.0;
+            return;
+        }
+
+        gpa = g;
+    }
+
+    double getGpa() const {
+        return gpa;
+    }
+
+    void print() const {
         cout << name << " " << gpa << " " << " " << id << endl;
     }
+
+    private:
+    double gpa;
+    int id;
 };
 
 int main(){
+    Student s("Bob", 4.0, 801123124);
+    Student s2("Joe", 2.0, 801123125);
 
-    Student s;
-    s.name = "Bob";
-    s.gpa = 4.0;
-    s.id = 801123124;
+    vector<Student> students;
 
-    Student s2;
-    s2.name = "Joe";
-    s2.gpa = 3.0;
-    s2.id = 801123125;
-
-    s.print();
-    s2.print();
-
-    /*
-    vector<string> name = {"Bob", "Joe"};
-    vector<double> gpa = {4.0, 3.0};
-    vector<int> id = {801123124, 801123125};
-
-    name.push_back("Sam");
-    id.push_back(801123123);
+    students.push_back(s);
+    students.push_back(s2);
 
     cout << "Welcome to the Student Database Application." << endl;
     unsigned int userInput = 0;
@@ -49,10 +77,11 @@ int main(){
         string tempName;
         int tempId;
         double tempGpa;
+        Student temp;
         switch(userInput){
             case 1:
-                for(int i = 0; i < name.size(); i++){
-                    cout << "Name: " << name.at(i) << ", GPA: " << gpa.at(i) << ", ID: " << id.at(i) << endl;
+                for(int i = 0; i < students.size(); i++){
+                    students.at(i).print();
                 }
                 break;
             case 2:
@@ -62,10 +91,12 @@ int main(){
                 cin >> tempGpa;
                 cout << "Enter the student's ID: " << endl;
                 cin >> tempId;
+                
+                temp.name = tempName;
+                temp.setId(tempId);
+                temp.setGpa(tempGpa);
 
-                name.push_back(tempName);
-                gpa.push_back(tempGpa);
-                id.push_back(tempId);
+                students.push_back(temp);
                 break;
             case 3:
                 cout << "Exiting application." << endl;
@@ -75,7 +106,7 @@ int main(){
                 break;
         }
     } while(userInput != 3);
-    */
+    
     /*
     // Array solution:
     const unsigned int SIZE = 1000;
