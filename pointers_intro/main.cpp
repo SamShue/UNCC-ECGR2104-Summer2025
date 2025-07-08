@@ -1,18 +1,26 @@
 #include <iostream>
+#include <cstdlib>
+#include "utils.h"
 
 using namespace std;
 
 int main(){
-    int x = 0xF;
+    int x = 15;
     int* p = &x;
 
-    cout << &x << endl;
-    cout << *p << endl;
-    cout << p << endl;
+    char s[] = {'2', '0', '.', '6', ' ', '\0'};
 
-    *p = 10;
+    cout << s << endl;
 
-    cout << x << endl;
+    string s2 = "20.6";
+
+    cin >> s2;
+
+    double d = stof(s2);
+
+    int a[] = {1, 2, 3, 4};
+
+    cout << s << endl;
 
     return 0;
     
