@@ -7,30 +7,7 @@ struct Node {
     Node* next;
 };
 
-class SinglyLinkedList{
-    public:
-    SinglyLinkedList();
-
-    void push_back(int data);
-    void pop_back();
-    unsigned int size() const;
-    int& at(unsigned int index) const;
-    void insert(unsigned int index, int data);
-    void remove(unsigned int index);
-
-    private:
-    Node* head;
-    unsigned int num_elements;
-};
-
-SinglyLinkedList::SinglyLinkedList(){
-    head = nullptr;
-    num_elements = 0;
-}
-
-void SinglyLinkedList::push_back(int data){
-    num_elements++;
-
+void push_back(Node*& head, int data){
     if(head == nullptr){
         // if head is nullptr, then list is empty and we are adding the first element
         head = new Node;
@@ -77,12 +54,10 @@ void SinglyLinkedList::push_back(int data){
     */
 }
 
-void SinglyLinkedList::pop_back(){
+void pop_back(Node*& head){
     if(head == nullptr){
         return;
     }
-
-    num_elements--;
 
     if(head->next == nullptr){
         delete head;
@@ -99,23 +74,25 @@ void SinglyLinkedList::pop_back(){
     currentNode->next = nullptr;
 }
 
-unsigned int SinglyLinkedList::size() const {
+unsigned int size(Node* head){
+    unsigned int num_elements = 0;
+    while(head != nullptr){
+        num_elements++;
+        head = head->next;
+    }
     return num_elements;
 }
 
-int& SinglyLinkedList::at(unsigned int index) const {
+int& at(Node* head, unsigned int index){
     unsigned int current_index = 0;
-    Node* currentNode = head;
     while(current_index != index){
         current_index++;
-        currentNode = currentNode->next;
+        head = head->next;
     }
-    return currentNode->data;
+    return head->data;
 }
 
-void SinglyLinkedList::insert(unsigned int index, int data){
-    num_elements++;
-
+void insert(Node*& head, unsigned int index, int data){
     if(index == 0){
         Node* backupAddr = head->next;
         head = new Node;
@@ -137,9 +114,7 @@ void SinglyLinkedList::insert(unsigned int index, int data){
     currentNode->next->next = backupAddr;
 }
 
-void SinglyLinkedList::remove(unsigned int index){
-    num_elements--;
-
+void remove(Node*& head, unsigned int index){
     if(index == 0){
         Node* backupAddr = head->next;
         delete head;
@@ -160,22 +135,22 @@ void SinglyLinkedList::remove(unsigned int index){
 }
 
 int main(){
-    SinglyLinkedList sll;
+    Node* head = nullptr;
 
-    sll.push_back(5);
-    sll.push_back(7);
-    sll.push_back(9);
-    sll.push_back(13);
+    push_back(head, 5);
+    push_back(head, 7);
+    push_back(head, 9);
+    push_back(head, 13);
 
-    sll.remove(1);
-    sll.insert(2, 19);
+    remove(head, 1);
+    insert(head, 2, 19);
 
-    sll.pop_back();
+    pop_back(head);
 
-    cout << "List size: " << sll.size() << endl;
+    cout << "List size: " << size(head) << endl;
 
-    for(int i = 0; i < sll.size(); i++){
-        cout << sll.at(i) << endl;
+    for(int i = 0; i < size(head); i++){
+        cout << at(head, i) << endl;
     }
 
     return 0;
