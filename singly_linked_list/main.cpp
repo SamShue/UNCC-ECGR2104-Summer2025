@@ -10,6 +10,9 @@ struct Node {
 class SinglyLinkedList{
     public:
     SinglyLinkedList();
+    ~SinglyLinkedList();
+    SinglyLinkedList(const SinglyLinkedList& other);
+    void operator=(const SinglyLinkedList& other);
 
     void push_back(int data);
     void pop_back();
@@ -26,6 +29,60 @@ class SinglyLinkedList{
 SinglyLinkedList::SinglyLinkedList(){
     head = nullptr;
     num_elements = 0;
+}
+
+SinglyLinkedList::~SinglyLinkedList(){
+    while(head != nullptr) {
+        Node* nextElement = head->next;
+        delete head;
+        head = nextElement;
+    }
+}
+
+SinglyLinkedList::SinglyLinkedList(const SinglyLinkedList& other){
+    head = nullptr;
+    num_elements = other.num_elements;
+    
+    for(int i = 0; i < other.size(); i++){
+        push_back(other.at(i));
+    }
+    
+    /*
+    Node* otherCurrentIndex = other.head;
+
+    if(other.size() == 0) {
+        return;
+    }
+
+    head = new Node;
+    head->data = otherCurrentIndex->data;
+    head->next = nullptr;
+    Node* currentIndex = head->next;
+
+    while(otherCurrentIndex->next != nullptr){
+        currentIndex = new Node;
+        currentIndex->data = otherCurrentIndex->data;
+        currentIndex->next = nullptr;
+
+        otherCurrentIndex = otherCurrentIndex->next;
+        currentIndex = currentIndex->next;
+    }
+    */
+}
+
+void SinglyLinkedList::operator=(const SinglyLinkedList& other){
+    while(head != nullptr) {
+        Node* nextElement = head->next;
+        delete head;
+        head = nextElement;
+    }
+
+    head = nullptr;
+    num_elements = other.num_elements;
+    
+    for(int i = 0; i < other.size(); i++){
+        push_back(other.at(i));
+    }
 }
 
 void SinglyLinkedList::push_back(int data){
@@ -171,6 +228,8 @@ int main(){
     sll.insert(2, 19);
 
     sll.pop_back();
+
+    SinglyLinkedList sll2 = sll;
 
     cout << "List size: " << sll.size() << endl;
 
