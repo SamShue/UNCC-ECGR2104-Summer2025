@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 
 using namespace std;
 
@@ -68,6 +69,10 @@ class vector{
     }
 
     T& at(unsigned int index){
+        if(index >= nextIndex){
+            throw out_of_range("Accessed index that is out of range.");
+        }
+
         return a[index];
     }
 
@@ -97,12 +102,22 @@ void function(){
     for(int i = 0; i < v.size(); i++){
         cout << v.at(i) << endl;
     }
+
+    cout << v.at(37) << endl;
 }
 
 int main(){
-    function();
 
-    function();
+    try{
+        function();
+        function();
+    } 
+    catch(const out_of_range& e){
+        cout << e.what() << endl;
+    }
+    catch(const exception& e){
+        cout << e.what() << endl;
+    }
 
     return 0;
 }
